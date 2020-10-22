@@ -1,4 +1,5 @@
 import './App'
+import 'normalize.css'
 import * as serviceWorker from './serviceWorker'
 
 // If you want your app to work offline and load faster, you can change

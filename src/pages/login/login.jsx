@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './login.styl'
 
 class Login extends Component {
   render() {
