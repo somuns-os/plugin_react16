@@ -50,7 +50,7 @@ module.exports = {
   "rules": {
     "no-cond-assign": 2,
     "no-console": [
-      "error", {
+      2, {
         "allow": ["log", "warn", "error", "info"]
       }
     ],
@@ -267,7 +267,7 @@ module.exports = {
     "react/display-name": 0,               // 防止在React组件定义中丢失displayName
     "react/forbid-prop-types": [2, {"forbid": ["any"]}],   // 禁止某些propTypes
     "react/jsx-closing-bracket-location": 1,               // 在JSX中验证右括号位置
-    "react/jsx-indent-props": [2, 4],      // 验证JSX中的props缩进
+    "react/jsx-indent-props": [2, 2],      // 验证JSX中的props缩进
     "react/jsx-no-bind": 0,                // JSX中不允许使用箭头函数和bind
     "react/jsx-no-literals": 0,            // 防止使用未包装的JSX字符串
     "react/no-danger": 0,                  // 防止使用危险的JSX属性

@@ -1,5 +1,6 @@
 import './App'
 import 'normalize.css'
+import 'antd/dist/antd.css'
 import './styles/index.styl'
 import * as serviceWorker from './serviceWorker'
 

@@ -13,6 +13,8 @@
 
 #editor config
 /.idea
+sonar-project.properties
+.scannerwork
 
 # misc
 .DS_Store
