@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import Cookies from 'js-cookie'
+import md5 from 'md5'
 
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './login.styl'
+import service from '../../plugins/axios'
 
 class Login extends Component {
 
@@ -12,6 +15,7 @@ class Login extends Component {
       username: '',
       password: ''
     }
+
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.submit = this.submit.bind(this)
@@ -34,7 +38,14 @@ class Login extends Component {
   }
 
   submit() {
-    console.log(this.state)
+    service.post('/login', {
+      userName: this.state.username,
+      password: md5(this.state.password)
+    }).then(res => {
+      const token = res.data.token
+      Cookies.set('token', token)
+      this.props.history.push('/home')
+    })
   }
 
   handleForgetPassword() {

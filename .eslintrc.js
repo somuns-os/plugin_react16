@@ -116,7 +116,7 @@ module.exports = {
     "comma-style": [2, "last"],
     //"SwitchCase" (默认：0) 强制 switch 语句中的 case 子句的缩进水平
     // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
-    "computed-property-spacing": [2, "always"],
+    "computed-property-spacing": [2, "never"],
     // 用于指统一在回调函数中指向this的变量名，箭头函数中的this已经可以指向外层调用者，应该没卵用了
     // e.g [0,"self"] 指定只能 var that = this. self不能指向其他任何值，this也不能赋值给self以外的其他值
     "consistent-this": [2, "self","that","_self","_that","me","_this"],
