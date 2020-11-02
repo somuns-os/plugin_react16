@@ -5,7 +5,7 @@ import md5 from 'md5'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './login.styl'
-import service from '../../plugins/axios'
+import { loginPost } from '../../api/login'
 
 class Login extends Component {
 
@@ -38,10 +38,11 @@ class Login extends Component {
   }
 
   submit() {
-    service.post('/login', {
+    const params = {
       userName: this.state.username,
       password: md5(this.state.password)
-    }).then(res => {
+    }
+    loginPost(params).then(res => {
       const token = res.data.token
       Cookies.set('token', token)
       this.props.history.push('/home')
@@ -53,7 +54,7 @@ class Login extends Component {
   }
 
   handleRegister() {
-    console.log('注册')
+    this.props.history.push('/signup')
   }
 
   render() {
