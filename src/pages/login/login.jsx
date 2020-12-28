@@ -40,8 +40,10 @@ class Login extends Component {
   submit() {
     const params = {
       userName: this.state.username,
-      password: md5(this.state.password)
+      // password: md5(this.state.password)
+      password: this.state.password
     }
+    console.log(params)
     loginPost(params).then(res => {
       const token = res.data.token
       Cookies.set('token', token)

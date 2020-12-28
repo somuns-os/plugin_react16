@@ -3,10 +3,12 @@ import {
   Form,
   Input,
   Tooltip,
-  Button
+  Button,
+  Upload
 } from 'antd'
+import ImgCrop from 'antd-img-crop'
 import md5 from 'md5'
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import { QuestionCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import './signup.styl'
 import { registerPost } from '../../api/login'
 
@@ -15,23 +17,53 @@ class Signup extends Component {
     super(props)
     this.form = React.createRef()
     this.handleRegister = this.handleRegister.bind(this)
+    this.goLoginPage = this.goLoginPage.bind(this)
+    this.handleUploadChange = this.handleUploadChange.bind(this)
+  }
+
+  state = {
+    loading: false,
+    imgUrl: '',
+    avatarId: ''
   }
 
   handleRegister() {
     const form = this.form.current
-    form.validateFields()
-      .then(values => {
-        const password = values.password
-        values.password = md5(password)
-        values.confirm = md5(password)
-        registerPost(values).then(res => {
-          console.log(res)
-        })
+    form.validateFields().then(values => {
+      const password = values.password
+      values.password = md5(password)
+      values.confirm = md5(password)
+      const params = {
+        ...values,
+        avatarId: this.state.avatarId + ''
+      }
+      registerPost(params).then(res => {
+        console.log(res)
       })
+    })
       .catch(err => {
         console.log(err, 'err')
       })
   }
+  // TODO 图片上传临时调试用
+  handleUploadChange(info) {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true })
+      return
+    }
+    if (info.file.status === 'done') {
+      this.setState({
+        imgUrl: `/api/file/preview/${info.file.response.data}`,
+        loading: false,
+        avatarId: info.file.response.data
+      })
+    }
+  }
+
+  goLoginPage() {
+    this.props.history.push('/login')
+  }
+
   render() {
     const formItemLayout = {
       labelCol: {
@@ -87,8 +119,37 @@ class Signup extends Component {
       }
     })
 
+    const { loading, imgUrl } = this.state
+
+    const uploadButton = (
+      <div>
+        { this.loading ? <LoadingOutlined /> : <PlusOutlined /> }
+        <div style={ { marginTop: 8 } }>Upload</div>
+      </div>
+    )
+
     return (
       <div className="signup">
+        { /* <input type="file" onChange={ this.upload.bind(this) } /> */ }
+        <div className="avatar-box">
+          <ImgCrop
+            rotate
+            modalOk="确定"
+            modalCancel="取消"
+          >
+            <Upload
+              name="file"
+              accept="image/*"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={ false }
+              action="/api/upload/avatar"
+              onChange={ this.handleUploadChange }
+            >
+              { imgUrl ? <img src={ imgUrl } alt="avatar" style={ { width: '100%' } } /> : uploadButton }
+            </Upload>
+          </ImgCrop>
+        </div>
         <Form
           { ...formItemLayout }
           ref={ this.form }
@@ -118,7 +179,7 @@ class Signup extends Component {
             name="userName"
             label={
               <span>
-            用户名&nbsp;
+                用户名&nbsp;
                 <Tooltip title="用户名一旦注册，无法再次修改">
                   <QuestionCircleOutlined />
                 </Tooltip>
@@ -192,7 +253,7 @@ class Signup extends Component {
               <Button type="primary" onClick={ this.handleRegister }>
                 注册
               </Button>
-              <span className="target-login">已有账号，去 <i className="login-text">登陆</i></span>
+              <span className="target-login">已有账号，去 <i className="login-text" onClick={ this.goLoginPage }>登陆</i></span>
             </div>
           </Form.Item>
         </Form>
