@@ -50,7 +50,7 @@ module.exports = {
   "rules": {
     "no-cond-assign": 2,
     "no-console": [
-      2, {
+      1, {
         "allow": ["log", "warn", "error", "info"]
       }
     ],

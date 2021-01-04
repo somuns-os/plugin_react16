@@ -45,7 +45,6 @@ class Signup extends Component {
         console.log(err, 'err')
       })
   }
-  // TODO 图片上传临时调试用
   handleUploadChange(info) {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true })
@@ -131,25 +130,6 @@ class Signup extends Component {
     return (
       <div className="signup">
         { /* <input type="file" onChange={ this.upload.bind(this) } /> */ }
-        <div className="avatar-box">
-          <ImgCrop
-            rotate
-            modalOk="确定"
-            modalCancel="取消"
-          >
-            <Upload
-              name="file"
-              accept="image/*"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={ false }
-              action="/api/upload/avatar"
-              onChange={ this.handleUploadChange }
-            >
-              { imgUrl ? <img src={ imgUrl } alt="avatar" style={ { width: '100%' } } /> : uploadButton }
-            </Upload>
-          </ImgCrop>
-        </div>
         <Form
           { ...formItemLayout }
           ref={ this.form }
@@ -158,6 +138,27 @@ class Signup extends Component {
           // onFinish={ this.onFinish }
           scrollToFirstError
         >
+          <Form.Item name="avatarId" className="Item" label="头像">
+            <div className="avatar-box">
+              <ImgCrop
+                rotate
+                modalOk="确定"
+                modalCancel="取消"
+              >
+                <Upload
+                  name="file"
+                  accept="image/*"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={ false }
+                  action="/api/upload/avatar"
+                  onChange={ this.handleUploadChange }
+                >
+                  { imgUrl ? <img src={ imgUrl } alt="avatar" style={ { width: '100%' } } /> : uploadButton }
+                </Upload>
+              </ImgCrop>
+            </div>
+          </Form.Item>
           <Form.Item
             name="email"
             label="邮箱"

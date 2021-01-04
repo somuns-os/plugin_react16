@@ -1,62 +1,75 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import md5 from 'md5'
 
+import SelfValidate from '../../components/SelfValidate/SelfValidate'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './login.styl'
 import { loginPost } from '../../api/login'
+import { setUserInfo } from '../../store/action'
 
 class Login extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      password: ''
+      validateVal: '',
+      isFirst: true
     }
+    this.form = React.createRef()
 
-    this.handleUsernameChange = this.handleUsernameChange.bind(this)
-    this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.submit = this.submit.bind(this)
     this.handleForgetPassword = this.handleForgetPassword.bind(this)
     this.handleRegister = this.handleRegister.bind(this)
-  }
-
-  handleUsernameChange(e) {
-    const value = e.target.value
-    this.setState({
-      username: value.trim()
-    })
-  }
-
-  handlePasswordChange(e) {
-    const value = e.target.value
-    this.setState({
-      password: value
-    })
+    this.handleValidateCode = this.handleValidateCode.bind(this)
   }
 
   submit() {
-    const params = {
-      userName: this.state.username,
-      // password: md5(this.state.password)
-      password: this.state.password
-    }
-    console.log(params)
-    loginPost(params).then(res => {
-      const token = res.data.token
-      Cookies.set('token', token)
-      this.props.history.push('/home')
+    this.form.current.validateFields().then(values => {
+      const params = {
+        userName: values.username,
+        password: md5(values.password)
+      }
+      this.props.setUserInfo(params).then(res => {
+        this.props.history.push('/home')
+      })
     })
   }
 
+  handleValidateCode(val) {
+    if (!this.state.isFirst) {
+      this.setState({
+        validateVal: val,
+        isFirst: false
+      }, () => {
+        this.form.current.validateFields([ 'code' ])
+      })
+    } else {
+      this.setState({
+        validateVal: val,
+        isFirst: false
+      })
+    }
+  }
+
   handleForgetPassword() {
-    console.log('忘记密码')
+    this.props.setUserInfo({ userInfo: { name: 456 }})
   }
 
   handleRegister() {
     this.props.history.push('/signup')
+  }
+
+  codeValidate = (rule, value) => {
+    if (!value) {
+      return Promise.resolve()
+    } else if (value.toUpperCase() !== this.state.validateVal.toUpperCase()) {
+      return Promise.reject('请输入不正确，请重新输入')
+    } else {
+      return Promise.resolve()
+    }
   }
 
   render() {
@@ -64,7 +77,7 @@ class Login extends Component {
       <div className="login">
         <div className="content">
           <Form
-            name="normal_login"
+            ref={ this.form }
             className="login-form"
             initialValues={ { remember: true } }
             onFinish={ this.submit }
@@ -75,11 +88,9 @@ class Login extends Component {
             >
               <Input
                 id="username_inp"
-                value={ this.state.username }
                 prefix={ <UserOutlined className="site-form-item-icon" /> }
                 placeholder="请输入用户名"
                 autoComplete="off"
-                onChange={ this.handleUsernameChange }
               />
             </Form.Item>
             <Form.Item
@@ -92,9 +103,26 @@ class Login extends Component {
                 type="password"
                 placeholder="请输入密码"
                 autoComplete="off"
-                value={ this.state.password }
-                onChange={ this.handlePasswordChange }
               />
+            </Form.Item>
+            <Form.Item
+              name="code"
+              rules={ [
+                {
+                  required: true,
+                  message: '请输入验证码！'
+                },
+                { validator: this.codeValidate.bind(this) }
+              ] }
+            >
+              <div className="code-box">
+                <Input
+                  className="code-val"
+                  autoComplete="off"
+                  placeholder="请输入验证码"
+                />
+                <SelfValidate width={ 120 } height={ 50 } change={ this.handleValidateCode }></SelfValidate>
+              </div>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button submit-btn">
@@ -114,4 +142,12 @@ class Login extends Component {
   }
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  setUserInfo: (params) => dispatch(setUserInfo(params))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
