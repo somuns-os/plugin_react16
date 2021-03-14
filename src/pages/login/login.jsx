@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Cookies from 'js-cookie'
 import md5 from 'md5'
 
 import SelfValidate from '../../components/SelfValidate/SelfValidate'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './login.styl'
-import { loginPost } from '../../api/login'
 import { setUserInfo } from '../../store/action'
 
 class Login extends Component {
@@ -55,7 +53,7 @@ class Login extends Component {
   }
 
   handleForgetPassword() {
-    this.props.setUserInfo({ userInfo: { name: 456 }})
+    this.props.history.push('/modPassword')
   }
 
   handleRegister() {

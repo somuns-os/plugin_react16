@@ -6,6 +6,9 @@
   bottom: 0
   right: 0
   background-color: _light-color
+  background-image: linear-gradient(to bottom right, _light-color, _blue-color, _orange-color, _mangetna-color)
+  transition: background-image 1s ease
+  animation: bgi 5s linear 2s infinite alternate
   _center()
   .content {
     width: 360px
@@ -64,4 +67,22 @@
 }
 .ant-form-item-has-error .ant-input, .ant-form-item-has-error .ant-input-affix-wrapper, .ant-form-item-has-error .ant-input:hover, .ant-form-item-has-error .ant-input-affix-wrapper:hover {
   border-color: #ff114f !important
+}
+@keyframes bgi {
+  0% {
+    background-image: linear-gradient(to bottom right, _light-color, _blue-color, _orange-color, _mangetna-color)
+  }
+  25% {
+    background-image: linear-gradient(to bottom right, _blue-color, _light-color, _mangetna-color, _orange-color)
+  }
+  50% {
+    background-image: linear-gradient(to bottom right, _mangetna-color, _light-color,  _blue-color, _orange-color)
+  }
+  75% {
+    background-image: linear-gradient(to bottom right, _orange-color, _blue-color, _mangetna-color, _light-color)
+  }
+  100% {
+    background-image: linear-gradient(to bottom right, _mangetna-color, _orange-color, _blue-color, _light-color)
+  }
+
 }
