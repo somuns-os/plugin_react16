@@ -1,4 +1,4 @@
-import { loginPost } from '../api/login'
+import { loginPost } from '@/api/login'
 import Cookies from 'js-cookie'
 
 export const setUserInfo = (params) => (dispatch) => new Promise((resolve, reject) => {

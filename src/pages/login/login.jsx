@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import md5 from 'md5'
 
-import SelfValidate from '../../components/SelfValidate/SelfValidate'
+import SelfValidate from '@/components/SelfValidate/SelfValidate'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './login.styl'
-import { setUserInfo } from '../../store/action'
+import { setUserInfo } from '@/store/action'
 
 class Login extends Component {
 

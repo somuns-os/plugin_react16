@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import asyncComponent from '../../utils/asyncComponent'
+import asyncComponent from '@/utils/asyncComponent'
 
 class FrontendAuth extends Component {
   render() {

@@ -1,20 +1,24 @@
 export const routerConfig = [
   {
     path: '/login',
-    component: () => import('../pages/login/login')
+    component: () => import('@/pages/login/login')
   },
   {
     path: '/signup',
-    component: () => import('../pages/signup/signup')
+    component: () => import('@/pages/signup/signup')
+  },
+  {
+    path: '/modPassword',
+    component: () => import('@/pages/ModifyPassword/ModifyPassword')
   },
   {
     path: '/home',
-    component: () => import('../pages/HomePage'),
+    component: () => import('@/pages/HomePage'),
     auth: true
   },
   {
     path: '/404',
-    component: () => import('../pages/NotFound'),
+    component: () => import('@/pages/NotFound'),
     auth: true
   }
 ]

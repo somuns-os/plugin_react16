@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { HashRouter, Switch } from 'react-router-dom'
-import FrontendAuth from '../components/FrontendAuth/FrontendAuth'
+import FrontendAuth from '@/components/FrontendAuth/FrontendAuth'
 import { routerConfig } from './routerConfig'
 
 class RouterIndex extends Component {

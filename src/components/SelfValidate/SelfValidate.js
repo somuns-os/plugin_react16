@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Validate } from '../../utils/validate'
+import { Validate } from '@/utils/validate'
 
 class SelfValidate extends Component {
   constructor(props) {
