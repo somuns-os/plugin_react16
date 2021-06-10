@@ -150,9 +150,17 @@
   "babel": {
     "presets": [
       "react-app"
-    ]
+    ],
+    "env": {
+      "development": {
+        "plugins": [
+          "dynamic-import-node"
+        ]
+      }
+    }
   },
   "devDependencies": {
+    "babel-plugin-dynamic-import-node": "^2.3.3",
     "stylus": "^0.54.8",
     "stylus-loader": "^4.1.1"
   }

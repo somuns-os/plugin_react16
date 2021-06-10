@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { Form, Input, Button, message } from 'antd'
 
-import { eMailReg, passwordReg } from '../../utils/reg'
+import { eMailReg, passwordReg } from '@/utils/reg'
 
 import { sendEmail } from '@/api/modPw'
 import { emailValidate } from '@/utils/validator'
