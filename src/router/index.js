@@ -1,18 +1,11 @@
-import React, { Component } from 'react'
-import { HashRouter, Switch } from 'react-router-dom'
-import FrontendAuth from '@/components/FrontendAuth/FrontendAuth'
-import { routerConfig } from './routerConfig'
+import asyncComponent from '@/utils/asyncComponent'
+import homeRouter from './home'
+import loginRouter from './first-router'
 
-class RouterIndex extends Component {
-  render() {
-    return (
-      <HashRouter>
-        <Switch>
-          <FrontendAuth routerConfig={ routerConfig }/>
-        </Switch>
-      </HashRouter>
-    )
-  }
-}
 
-export default RouterIndex
+const routers = [
+  ...loginRouter,
+  ...homeRouter
+]
+
+export default routers

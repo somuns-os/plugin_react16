@@ -3,6 +3,7 @@ import { Validate } from '@/utils/validate'
 
 class SelfValidate extends Component {
   constructor(props) {
+    // console.log(props)
     super(props)
     const validatesCanvas = new Validate(props.width, props.height)
     validatesCanvas.init()

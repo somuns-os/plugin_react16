@@ -272,7 +272,7 @@ module.exports = {
     "react/jsx-no-literals": 0,            // 防止使用未包装的JSX字符串
     "react/no-danger": 0,                  // 防止使用危险的JSX属性
     "react/no-direct-mutation-state": 2,   // 防止this.state的直接变异
-    "react/no-multi-comp": 1,              // 防止每个文件有多个组件定义
+    "react/no-multi-comp": 0,              // 防止每个文件有多个组件定义
     "react/no-set-state": 0,               // 防止使用setState
     "react/sort-comp": 1,                  // 强制组件方法顺序
     "react/no-array-index-key": 0,         // 防止在数组中遍历中使用数组key做索引

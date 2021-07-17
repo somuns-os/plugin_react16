@@ -17,8 +17,10 @@ class ModifyPassword extends Component {
   }
 
   state = {
+    sended: '',
     btnText: '发送邮件',
     isCode: false,
+    isState: 1, // 1 根据邮件获取验证码 2 发送验证码校验邮箱 3 更改密码
     isModPw: false
   }
   form = null
@@ -36,25 +38,40 @@ class ModifyPassword extends Component {
       sended: 'sended',
       btnText: `已发送(${this.count})`
     })
+    this._getCode(email)
+  }
+
+  handleModifyPassword(value) {
+    if (this.state.isState === 1 && !this.state.sended) {
+      this._getCode(value.email)
+    } else if (this.state.isState === 2 && !this.state.sended) {
+      this._handleCheckedCode(value)
+    } else if (this.state.isState === 3) {
+      this.handleSendEmail(value)
+    }
+  }
+
+  _getCode(email) {
     return new Promise((resolve, reject) => {
+      this.setState({
+        isState: 2,
+        btnText: '正在发送',
+        sended: 'sended'
+      })
       sendEmail({ email }).then(res => {
         message.success('邮件发送成功')
-        this.setState({
-          isModPw: true
-        })
         resolve(res)
       })
         .finally(_ => {
           this.timer = setInterval(_ => {
             this.count--
             this.setState({
-              sended: 'sended',
               btnText: `已发送(${this.count})`
             })
             if (this.count === 0) {
               this.setState({
                 sended: '',
-                btnText: '发送邮件'
+                btnText: '验证'
               })
               clearInterval(this.timer)
               this.count = 5
@@ -65,10 +82,13 @@ class ModifyPassword extends Component {
     })
   }
 
-  handleModifyPassword(value) {
-    if (!this.state.isModPw) {
-      this.handleSendEmail(value.email)
-    }
+  _handleCheckedCode(form) {
+    console.log(form)
+    return new Promise((resolve, reject) => {
+      // this.setState({
+      //   isState: 3
+      // })
+    })
   }
 
   render(h) {
@@ -86,9 +106,18 @@ class ModifyPassword extends Component {
         span: 24
       }
     }
+
+    const checkedCode = _ => ({
+      validator(rule, value) {
+        if (!value) {
+          return Promise.reject('请输入验证码')
+        }
+        return Promise.resolve()
+      }
+    })
+
     const checkedPassWord = _ => ({
       validator(rule, value) {
-        console.log(value)
         if (!value) {
           return Promise.reject('密码不能为空')
         } else {
@@ -100,6 +129,7 @@ class ModifyPassword extends Component {
         }
       }
     })
+
     return (
       <div className="modify-password">
         <div className="content">
@@ -133,16 +163,24 @@ class ModifyPassword extends Component {
               ></Input>
             </Form.Item>
             {
-              this.state.isModPw ? (
+              this.state.isState === 1 || this.state.sended === 'sended' ? null : (
+                <Form.Item
+                  name="validateCode"
+                  rules={ [
+                    checkedCode
+                  ] }
+                >
+                  <Input
+                    className="validateCode"
+                    placeholder="请输入验证码"
+                  ></Input>
+                </Form.Item>
+              )
+            }
+
+            {
+              this.state.isState === 3 ? (
                 <>
-                  <Form.Item
-                    name="validateCode"
-                  >
-                    <Input
-                      className="validateCode"
-                      placeholder="请输入验证码"
-                    ></Input>
-                  </Form.Item>
                   <Form.Item
                     name="password"
                     rules={ [
@@ -189,21 +227,6 @@ class ModifyPassword extends Component {
             </Form.Item>
 
           </Form>
-          { /* <div className="form">
-            <div className="item">
-              <Input
-                className="email"
-                placeholder="请输入邮箱地址"
-                placeholder="请输入邮箱"
-                value={ this.state.email }
-                onChange={ this.handleInputChange }
-              ></Input>
-              <Button className={ [ 'send-email-btn', this.state.sended ].join(' ') } type="primary" onClick={ this.handleSendEmail }>{ this.state.btnText }</Button>
-            </div>
-            <div className="item">
-              <Button>下一步</Button>
-            </div>
-          </div> */ }
         </div>
       </div>
     )

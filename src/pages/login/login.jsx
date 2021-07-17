@@ -24,6 +24,9 @@ class Login extends Component {
     this.handleValidateCode = this.handleValidateCode.bind(this)
   }
 
+  componentDidMount() {
+  }
+
   submit() {
     this.form.current.validateFields().then(values => {
       const params = {
