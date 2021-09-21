@@ -2,10 +2,6 @@ import asyncComponent from '@/utils/asyncComponent'
 
 export default [
   {
-    path: '/',
-    redirect: '/login'
-  },
-  {
     path: '/login',
     component: asyncComponent(() => import('@/pages/login/login'))
   },
@@ -19,7 +15,8 @@ export default [
   },
   {
     path: '/home',
-    component: asyncComponent(() => import('@/pages/Layout/Layout')),
+    redirect: '/home/pages',
+    component: asyncComponent(() => import('@/pages/HomePage/HomePage')),
     auth: false
   },
   {

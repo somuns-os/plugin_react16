@@ -2,21 +2,23 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
-function FrontendAuth({ route, ...reset }) {
+
+export function FrontendAuth({ route, ...reset }) {
   const { path } = route
   const isLogin = Cookies.get('token')
   if (route.redirect) {
-    return <Redirect to="/home" />
+    return <Redirect to={ route.redirect || '/login' } />
     // return isLogin ? <Redirect to="/home" /> : <Redirect to="/login" />
   }
-  if (route && !route.auth && !isLogin) {
+  if (route && !route.auth) {
     const { component } = route
+    console.log(route)
     return <Route path={ path } component={ component } />
   }
   if (isLogin) {
     // 如果是登陆状态，想要跳转到登陆，重定向到主页
     if (path === '/login') {
-      return <Redirect to="/home" />
+      return <Redirect to="/home/pages" />
     } else {
       // 如果路由合法，就跳转到相应的路由
       if (route) {
@@ -36,5 +38,3 @@ function FrontendAuth({ route, ...reset }) {
     }
   }
 }
-
-export default FrontendAuth

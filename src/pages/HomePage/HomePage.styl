@@ -1,0 +1,64 @@
+@import "~@/styles/index.styl"
+
+.ant-layout-header {
+  height: 60px
+}
+.ant-layout-content {
+  height: _content-height;
+  padding: 5px 15px
+}
+.ant-menu-item {
+  margin-top: 0 !important
+}
+.tabs {
+  height: _tab-height
+}
+.logo {
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: 60px
+  font-size: 32px
+  color: #fff
+  animation: txtColor 10s ease infinite
+}
+
+@keyframes txtColor {
+  0% {
+    color: _theme-color
+    transform: scale(1)
+  }
+  10% {
+    color: _light-color
+  }  
+  20% {
+    color: _dark-color
+  }
+  30% {
+    color: _red-color
+  }
+  40% {
+    color: _orange-color
+  }
+  50% {
+    color: _gold-color
+    transform: scale(.5)
+  }
+  60% {
+    color: _mangetna-color
+  }
+  70% {
+    color: _blue-color
+  }
+  80% {
+    color: rgba(_gold-color, .7)
+  }
+  90% {
+    color: rgba(_gold-color, .5)
+  }
+  100% {
+    color: rgba(_gold-color, .3)
+    transform: scale(1)
+  }
+}
